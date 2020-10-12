@@ -1,0 +1,11 @@
+create  table  member2(  member2_id  number  primary key , firstname  varchar(20), lastname  varchar(20), local  varchar(20), msg clob, regdate  date  default  sysdate)
+
+
+create sequence seq_member2increment  by 1start with 1grant create sequence to user0907;
+
+
+alter  database  SPACE0907 datafile 'C:\oraclexe\app\oracle\oradata\XE\space0907.dbf'  resize 20M;
+
+
+insert  into  member2(member2_id, firstname,lastname,local,msg)values( seq_member2.nextval, 'zino','min','house','hi')
+
