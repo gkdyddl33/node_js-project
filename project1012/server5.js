@@ -21,7 +21,9 @@ var server = http.createServer(function(request,response){
             console.log("실패",error);
         }else{
             // http 프로토콜 상, 약속을 지켜서, 즉 형식을 지켜서 보내자
-            response.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
+            response.writeHead(200,{
+                "Content-Type":"text/html;charset=utf-8"
+            });
             response.end(data);     // 클라이언트에게 컨텐츠 전송
             
         }
