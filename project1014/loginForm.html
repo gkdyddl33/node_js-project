@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+    form button{
+        background-color: dodgerblue;
+        color: white;
+    }
+    form input[name='m_name'], input[name='m_pass']{
+        background-color: gold;
+    }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    // 문서가 로드되면, 즉 DOM이 모두 메모리에 올라오면, 익명함수를 호출
+    $(function(){
+        // 버튼 클릭이벤트 구현 -> .click도 가능
+        $("form button").on("click",function(){
+            // alert("나 눌렀어?");
+            checkValue();
+        });
+    });
+    // (1) 유효성 체크검사
+    function checkValue(){
+        if($("form input[name='m_name']").val()==""){
+            alert("아이디를 입력하세요.");        
+        }else if($("form input[name='m_name']").val()==""){
+            alert("패스워드를 입력하세요.");
+        }else{
+            // 유효한 입력인경우 = 서버 전송 = 폼 전송
+            $("form").attr({// 전송대상 서버 주소 입력
+                action:"/login",
+                method:"get"        // get방식으로 전송하겠다는 의미.
+                                            // get방식이란? 가지고 간다. 즉, 입력이 노출된다
+                                            // post방식이란? 편지지 봉투에 담김. 보안상 내용이 가려짐
+            });
+            $("form").submit();       // 전송
+        }
+    }        
+</script>
+</head>
+<body>
+    <!-- 폼 태그란? 서버에 전송범위를 설정할 수 있는 양식 태그 -->
+    <form>
+        <!-- id와 name 의 차이점 :
+                서버에 전송시, 변수역할을 해주는 것은 오직 name만이 가능 -->
+        <input type="text" name="m_name" placeholder="아이디 입력..">
+        <input type="password" name="m_pass" placeholder="비밀번호 입력..">
+        <!-- form안에 button이 있고 서버전송을 정하지 않으면 나 자신으로 전송 -->
+        <button type="button">전송</button>
+    </form>
+</body>
+</html>
