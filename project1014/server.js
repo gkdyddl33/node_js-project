@@ -149,11 +149,11 @@ var server = http.createServer(function(request,response){
             response.end(tag);
         });
     }else if(urlJson.pathname=="/member/detail"){
-        var member2_id=urlJson/query.member2_id;
+        var member2_id=urlJson.query.member2_id;
 
         // mysql 데이터 가져오기
         var sql = "select * from member2 where member2_id="+member2_id;
-        con.query(sql,function(error,record,fiedls){
+        con.query(sql,function(error,record,fields){
             if(error){
                 console.log("회원 1건 조회 실패",error);
             }else{

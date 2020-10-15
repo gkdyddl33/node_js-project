@@ -54,7 +54,7 @@ var server = http.createServer(function(request,response){
                     console.log("등록실패",error);
                 }else{
                     var msg = "<script>";
-                    msg +="alert('가입성공')";
+                    msg +="alert('가입성공');";
                     msg += "location.href='/member/list';";       // 재 접속(클라이언트가 지정한 주소로 재접속)
                     msg +="</script>";
                     response.end(msg);      // 응답정보 구성
@@ -120,7 +120,7 @@ function connectDB(){
     });
 }
 
-server.listen(9000,function(){
-    console.log("Web Server is running at port 9000...");
+server.listen(9999,function(){
+    console.log("Web Server is running at port 9999...");
     connectDB();
 });
