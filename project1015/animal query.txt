@@ -1,0 +1,39 @@
+//동물 종 구분
+create  table  category(
+   category_id  int  primary key auto_increment 
+  , category_name  varchar(20) 
+) default  character set utf8;
+
+//소속된 동물
+create  table animal(
+   animal_id  int primary key auto_increment 
+ , name varchar(25)
+ , category_id int 
+ , foreign key(category_id)  references category(category_id)
+) default  character set utf8;
+
+insert into category(category_name) values('포유류');
+insert into category(category_name) values('어류');
+insert into category(category_name) values('갑각류');
+insert into category(category_name) values('조류');
+
+insert into animal(name, category_id) values('호랑이',1);
+insert into animal(name, category_id) values('사자',1);
+insert into animal(name, category_id) values('곰',1);
+insert into animal(name, category_id) values('말',1);
+insert into animal(name, category_id) values('하이애나',1);
+
+insert into animal(name, category_id) values('참치',2);
+insert into animal(name, category_id) values('고등어',2);
+insert into animal(name, category_id) values('멸치',2);
+insert into animal(name, category_id) values('붕어',2);
+insert into animal(name, category_id) values('돔',2);
+
+insert into animal(name, category_id) values('게',3);
+insert into animal(name, category_id) values('가재',3);
+insert into animal(name, category_id) values('새우',3);
+
+insert into animal(name, category_id) values('독수리',4);
+insert into animal(name, category_id) values('부엉이',4);
+insert into animal(name, category_id) values('참새',4);
+insert into animal(name, category_id) values('오리',4);
