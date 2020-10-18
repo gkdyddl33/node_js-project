@@ -4,17 +4,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
+<script>
+    function getSubList(){
+        // (1) 서버에 요청(GET/POST) -> 부모를 체크하면 자식이 나오게끔
+        // js는 스크립트 불가
+        var sel1 = document.getElementsByName("category_id")[0];
+        location.href="/animal?category_id="+sel1.value;   // id=셀렉박스의 값(부모)
+    }
+</script>
 </head>
 <body>
-    <select name="" id="" onchange="alert('선택바꿧어>');">
+    <!-- 서버에서 다시 넘겨받은 category_id 는 <%=category_id%> -->
+    <!-- 셀렉박스를 this로 가져올려면 매개변수에 this ,  위에는 obj 한다면
+        sel1을 만들 필요 없이 그 자리에 obj를 넣으면 된다. -->
+    <select name="category_id" id="" onchange="getSubList()">
         <option value="0">동물구분</option>
         <%for(var i=0;i<categoryArray.length;i++){%>
             <%var category = categoryArray[i];%>
-            <option value="<%=category.category_id%>"><%=category.category_name%></option>
+            <!-- 내가 부모를 체크하면 그 해당 구역에 selected가 붙으면서 값을 
+                    부여하게 만들기 -->
+            <option <%if(category_id==category.category_id){%>selected<%}%> value="<%=category.category_id%>"><%=category.category_name%></option>
         <%}%>
     </select>
-    <select name="" id="">
-        <option value="0">동물이름</option>
+    <select name="animal_id" id="">
+        <%for(var i=0;i<animalArray.length;i++){%>
+            <%var animal = animalArray[i];%>
+            <option value="<%animal.animal_id%>"><%=animal.name%></option>                   
+        <%}%>
     </select>
 </body>
 </html>

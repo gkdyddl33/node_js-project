@@ -32,7 +32,7 @@ var server = http.createServer(function(request,response){
     }else if(urlJson.pathname=="/member/registForm"){
         fs.readFile("./registForm.html","utf-8",function(error,data){
             if(error){
-                console.log("registForm.html 읽기실패",error)
+                console.log("registForm.html 읽기실패",error);
             }else{
                 // 200이란? HTTP 
                 response.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});

@@ -44,6 +44,9 @@ var server = http.createServer(function(request,response){
     }else if(urlJson.pathname=="/category"){
         // ** 새로운 동물 카테고리
         getCategory(request,response);
+    }else if(urlJson.pathname=="/animal"){
+        // ** 새로운 카테고리에 소속된 동물
+        getAnimal(request,response);
     }
 });
 
@@ -96,7 +99,7 @@ function regist(request,response){
             postParam.email,            
             postParam.receive,            
             postParam.addr,
-            postParam.memo,            
+            postParam.memo            
         ],function(error,fields){
             if(error){
                 console.log("등록실패",error);
@@ -238,6 +241,62 @@ function getCategory(request,response){
             });
         }
     });
+}
+// ** 공통되는 부분을 재사용하기 위해 만든 함수 = 카테고리 목록
+// 비동기와 동기화 배우고 써먹자.!
+// function getCategoryList(){
+//     var categoryArray=[];   // 빈 배열 선언
+
+//     var sql = "select * from category";
+//     con.query(sql,function(error,record,fields){
+//         if(error){
+//             console.log("동물목록 가져오기 실패",error);
+//         }else{
+//             categoryArray = record;     // sql 실행이 되면서 생기는 배열을
+//                                                     // 새로 생성한 변수에 담는다.
+//         }
+//     });
+// }
+
+// ** 동물의 목록 가져오기
+function getAnimal(request,response){
+    // 자식 + 부모를 보이기 위해 카데고리 가져오기
+    var sql = "select * from category";
+    con.query(sql,function(error,record,fields){// sql문 실행
+        if(error){
+            console.log("동물목록 조회 실패",error);
+        }else{  // ==> "비동기 방식 -> 실행하는데 순서가 없다. "   
+            // GET 방식
+            var categoryRecord=record;       // * 카테고리 목록 배열
+
+            category_id = urlJson.query.category_id;
+            var sql = "select * from animal where category_id="+category_id;
+        
+            // mysql 연동
+            con.query(sql,function(error,record,fields){
+                if(error){
+                    console.log("동물목록 가져오기 실패",error);
+                }else{
+                    console.log("record: ",record);     // 배열인지 아닌지 확인해보는 코드
+                    fs.readFile("./animail.ejs","utf-8",function(err,data){
+                        if(err){
+                            console.log("animal.ejs 읽기 실패",error);
+                        }else{
+                            response.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});                    
+                            response.end(ejs.render(data,{
+                                animalArray:record,
+                                // 자식의 동물이름이 부모가 선택하면 나오는데
+                                // 부모도 계속 유지를 해야 하기 때문에 같이 응답해준다.                        
+                                categoryArray:categoryRecord,
+                                category_id:category_id
+                            }));
+                        }
+                    });
+                }
+            });                   
+        }
+    });
+   
 }
 // (3) mysql 접속
 function connect(){

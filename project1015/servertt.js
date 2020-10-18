@@ -35,6 +35,8 @@ var server = http.createServer(function(request, response){
         del(request, response);
     }else if(urlJson.pathname=="/member/edit"){//회원 정보 수정을 요청하면..
         update(request, response);
+    }else if(urlJson.pathname=="/category"){//동물구분을 요청하면..
+        getCategory(request, response);
     }
     
 
@@ -206,6 +208,28 @@ function update(request, response){
                     response.end(tag);
                 }
         } );
+    });
+}
+
+//동물의 종류 가져오기 
+function getCategory(request, response){
+    var sql="select * from category";
+
+    con.query(sql, function(error, record, fields){
+        if(error){
+            console.log("동물구분 목록 조회실패", error);
+        }else{
+            fs.readFile("./animal.ejs", "utf-8", function(err, data){
+                if(err){
+                    console.log("animal.ejs 읽기 실패", err);
+                }else{
+                    response.writeHead(200, {"Content-Type":"text/html;charset=utf-8"});
+                    response.end(ejs.render(data,{
+                        categoryArray:record
+                    }));
+                }           
+            });
+        }
     });
 }
 
